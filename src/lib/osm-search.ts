@@ -1,12 +1,12 @@
-import { browser } from "$app/environment";
+import { browser } from '$app/environment';
 
 export function createOSMQueryUrl(query: string) {
-	return `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=jsonv2&limit=5`;
+	return `https://osm-nominatim.gs.mil/search?q=${encodeURIComponent(query)}&format=jsonv2&limit=5&countrycodes=us`;
 }
 
 export interface Place {
 	lat: string;
-	long: string;
+	lon: string;
 	name: string;
 	display_name: string;
 }
