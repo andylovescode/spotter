@@ -31,11 +31,6 @@
 
 	// Generate Google Maps URL with all markers
 	const mapUrl = $derived.by(() => {
-		if (selectedLocation) {
-			// Show selected location
-			return `https://www.google.com/maps?q=${selectedLocation.latitude},${selectedLocation.longitude}&output=embed`;
-		}
-
 		// Show all locations or center point
 		if (pointsOfInterest.length === 0) {
 			return 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3000!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1';

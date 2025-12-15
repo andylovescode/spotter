@@ -1,4 +1,5 @@
 import { command, form, getRequestEvent, query } from '$app/server';
+import { addPoints } from '$lib/add-points';
 import { auth } from '$lib/auth';
 import { db } from '$lib/server/db';
 import { reviews } from '$lib/server/db/schema';
@@ -16,6 +17,8 @@ export const submitReview = command(
 	async (input) => {
 		const session = await auth.api.getSession({ headers: getRequestEvent().request.headers });
 		if (!session) error(401);
+
+		await addPoints(session.user.id, Math.max(25, Math.min(input.description.length, 300)));
 
 		await db.insert(reviews).values([
 			{

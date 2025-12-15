@@ -16,6 +16,7 @@
 		{@render icon()}
 	</div>
 	<span>{key}: </span>
-	<span class="overflow-hidden font-medium tracking-tight text-nowrap text-foreground">{value}</span
+	<span class="max-w-[300px] overflow-hidden font-medium tracking-tight text-nowrap text-foreground"
+		>{value}</span
 	>
 </div>

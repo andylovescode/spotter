@@ -11,6 +11,26 @@
 	const session = getAtom(authClient.useSession());
 	const currentLocation = useGeolocation();
 
+	const sortedLocations = $derived.by(() => {
+		if (
+			!currentLocation ||
+			currentLocation.error ||
+			!Number.isFinite(currentLocation.position.coords.latitude) ||
+			!Number.isFinite(currentLocation.position.coords.longitude)
+		) {
+			return data.locations;
+		}
+
+		const userLat = currentLocation.position.coords.latitude;
+		const userLong = currentLocation.position.coords.longitude;
+
+		return [...data.locations].sort((a, b) => {
+			const distanceA = getDistance(userLat, userLong, a.latitude, a.longitude);
+			const distanceB = getDistance(userLat, userLong, b.latitude, b.longitude);
+			return distanceA - distanceB;
+		});
+	});
+
 	function getDistance(userLat: number, userLong: number, lat: number, long: number) {
 		const toRad = (x: number) => (x * Math.PI) / 180;
 		const earth_radius = 6371; // km
@@ -41,7 +61,7 @@
 <div class="flex flex-col gap-8 p-32">
 	<h1 class="text-4xl font-medium tracking-tighter">Review Locations</h1>
 	<ul class="flex flex-col gap-4">
-		{#each data.locations as loc}
+		{#each sortedLocations as loc}
 			<a href="/location/i-{loc.id}">
 				<li class="rounded-lg border bg-card p-6 shadow-sm hover:bg-muted">
 					<div class="flex flex-row items-center gap-4">
