@@ -17,7 +17,7 @@ export const submitReview = command(
 		const session = await auth.api.getSession({ headers: getRequestEvent().request.headers });
 		if (!session) error(401);
 
-		db.insert(reviews).values([
+		await db.insert(reviews).values([
 			{
 				id: crypto.randomUUID(),
 				locationId: input.locationId,
